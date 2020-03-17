@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ESP32 Server</title>
+	<style>
+		#centerdiv{
+			width: 300px;
+			border: 3px solid #483D8B;
+			background-color: #6495ED;
+			border-radius: 15px;
+		}
+	</style>
+</head>
+
+<body>
+<div align="center">
+	<div id="centerdiv" align="center" width="300px">
+    <form method="POST">
+        <table name="ssid" id="ssids"></table><br>
+		<button onclick="getNetworks()">Odswiez</button><br><br>
+        <label for="password">Haslo:</label>
+        <input type="text" id="password" name="password">
+        <input type="submit" value="Polacz"><br><br>
+    </form>
+    <form action="/saved" target="dummyframe" method="POST">
+		<table name="savednetworks" id="savednetworks"></table>
+        <input type="submit" value="Polacz"><br><br>
+    </form>
+	<form action="/changepassword">
+        <input type="submit" value="Zmien haslo"><br><br>
+    </form>
+	</div>
+</div>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <script>
+        getNetworks();
+        
+        getSavedNetworks();
+       
+        function httpGet(theUrl)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false );
+            xmlHttp.send( null );
+        	console.log(xmlHttp.responseText);
+            return xmlHttp.responseText;
+        }
+        
+        function getNetworks()
+        {
+        	var nets = httpGet("networks")
+        	document.getElementById('ssids').innerHTML = nets;
+        }
+        
+        function getSavedNetworks()
+        {
+        	var savedNets = httpGet("saved")
+        	document.getElementById('savednetworks').innerHTML = savedNets;
+        }
+    </script>
+</body>
+
+</html>

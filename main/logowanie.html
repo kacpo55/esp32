@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ESP32 Server</title>
+	<style>
+		#centerdiv{
+			width: 300px;
+			border: 3px solid #483D8B;
+			background-color: #6495ED;
+			border-radius: 15px;
+		}
+		
+		#wrongpassword{
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+<div align="center">
+	<div id="centerdiv" align="center" width="300px">
+    <form method="POST">
+	<br><br>
+		<label for="oldpassword">Stare haslo:</label>
+        <input type="text" id="oldpassword" name="oldpassword"><br><br>
+        <label for="password">Nowe haslo:</label>
+        <input type="text" id="password" name="password"><br><br>
+        <input onclick="isPasswordOk()" type="submit" value="Zmien">
+    </form>
+	<form action="/">
+        <input type="submit" value="Powrot"><br><br>
+    </form>
+	<p id="wrongpassword"></p>
+	</div>
+</div>
+    <script>
+	isPasswordOk();
+	function isPasswordOk()
+	{
+		var value = httpGet("change")
+		if(value != 0){
+			document.getElementById('wrongpassword').innerHTML = value;
+		}
+	}
+	
+        function httpGet(theUrl)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false );
+            xmlHttp.send( null );
+        	console.log(xmlHttp.responseText);
+            return xmlHttp.responseText;
+        }
+    </script>
+</body>
+
+</html>

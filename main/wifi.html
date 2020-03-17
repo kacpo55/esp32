@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ESP32 Server</title>
+	<style>
+		#centerdiv{
+			width: 300px;
+			border: 3px solid #483D8B;
+			background-color: #6495ED;
+			border-radius: 15px;
+		}
+	</style>
+</head>
+
+<body>
+<div align="center">
+	<div id="centerdiv" align="center" width="300px">
+    <p id="id">ID:</p>
+    <p id="temp">TEMP:</p>
+    <p id="fuse">BEZPIECZNIK:</p>
+    <p id="wifi">WIFI:</p>
+	</div>
+</div>	
+	
+    <script>
+	writeToPage(httpGet("data"));
+        setInterval(function(){ 
+            writeToPage(httpGet("data"));
+        }, 5000);
+        function httpGet(theUrl)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false );
+            xmlHttp.send( null );
+        	console.log(xmlHttp.responseText);
+            return xmlHttp.responseText;
+        }
+        
+        function writeToPage(json)
+        {
+        	var obj = JSON.parse(json);
+        	document.getElementById("id").innerHTML = "ID: " + obj.id;
+        	document.getElementById("temp").innerHTML = "TEMP: " + obj.temp;
+        	document.getElementById("fuse").innerHTML = "BEZPIECZNIK: " + obj.fuse;
+        	document.getElementById("wifi").innerHTML = "WIFI: " + obj.wifi;
+        }
+    </script>
+</body>
+
+</html>
